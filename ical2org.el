@@ -1,7 +1,7 @@
-(load 'ical2org-config.el)
+(load-file "~/.emacs.d/my-playground/ical2org-config.el")
 (setq org-file "~/.emacs.d/calendar/planning.org")
 (setq ical-file "~/.emacs.d/calendar/raw.ical")
-(setq planning_url get-url)
+(setq planning_url url)
 
 (defun sanitize-line (line preserve_linefeed) (replace-regexp-in-string "\\\\," "," (if preserve_linefeed (replace-regexp-in-string "\\\\n" "\n" line) (replace-regexp-in-string "\\\\n" "-" line))))
 (defun iso8601-to-org (date) (format-time-string "%Y-%m-%d %a %H:%M" (date-to-time date)))
@@ -28,19 +28,20 @@
    t))
 
 (defun edt-iut ()
+  (interactive)
   (if (not (file-exists-p "~/.emacs.d/calendar"))
       (make-directory "~/.emacs.d/calendar"))
   (url-copy-file planning_url ical-file t)
   (write
    (concat
-    (format "#+TITLE: %s\n" get-title)
-    (format "#+AUTHOR: %s\n" get-name)
-    (format "#+EMAIL: %s\n" get-email)
+    (format "#+TITLE: %s\n" title)
+    (format "#+AUTHOR: %s\n" name)
+    (format "#+EMAIL: %s\n" email)
     "#+DESCRIPTION: conversion d'un fichier .ical en .org\n"
-    (format "#+CATEGORY: %s\n" get-category)
+    (format "#+CATEGORY: %s\n" category)
     "#+STARTUP: hidestars\n"
     "#+STARTUP: overview\n"
-    (format "#+FILETAGS: %s\n\n" get-filetag))
+    (format "#+FILETAGS: %s\n\n" filetag))
    nil)
   (let ((dtstart nil) (dtend nil) (uid nil) (summary nil) (location nil) (description nil) (stored_uid '()))
     (dolist (line (read-lines ical-file))
