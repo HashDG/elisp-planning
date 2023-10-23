@@ -1,1 +1,2 @@
-# .ical to .org\nHere it is a converter in order to get your planning in Emacs
+# .ical to .org
+Here it is a converter in order to get your planning in Emacs
